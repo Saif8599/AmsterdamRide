@@ -1,0 +1,22 @@
+{
+  "name": "AmsterdamRide",
+  "version": "1.0.0",
+  "description": "user-friendly website to attract customers looking for quick and comfortable taxi rides in Amsterdam.",
+  "main": "server.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "liquid"
+  ],
+  "dependencies": {
+    "express": "^5.0.1",
+    "liquidjs": "^10.21.0"
+  }
+}
