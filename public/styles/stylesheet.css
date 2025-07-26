@@ -1,0 +1,136 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  /* Colors */
+  --primary-color: #ff8d06;
+  --secondary-color: #3e4958;
+  --white-color: #ffffff;
+  --accent-orange: #ffa722;
+  --accent-green: #00aa5b;
+  --text-color: #000000;
+
+  /* Fonts */
+  --font-heading: "Russo One", sans-serif;
+  --font-body: "Poppins", sans-serif;
+
+  /* Sizes */
+  --font-size-desktop-xl: 3em;
+  --font-size-desktop-l: 2em;
+  --font-size-desktop-m: 1.3em;
+  --font-size-desktop-s: 1.2em;
+  --font-size-mobile-xl: 2em;
+  --font-size-mobile-l: 1.2em;
+  --font-size-mobile-m: 1em;
+  --font-size-mobile-s: 0.8em;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--secondary-color);
+}
+
+h1 {
+  font-size: var(--font-size-mobile-xl);
+  @media (min-width: 850px) {
+    font-size: var(--font-size-desktop-xl);
+  }
+}
+
+h2 {
+  font-size: var(--font-size-mobile-l);
+  @media (min-width: 850px) {
+    font-size: var(--font-size-desktop-l);
+  }
+}
+
+h3 {
+  font-size: var(--font-size-mobile-m);
+  @media (min-width: 850px) {
+    font-size: var(--font-size-desktop-m);
+  }
+}
+
+/* Body text */
+p,
+a,
+li,
+span,
+input,
+textarea,
+button {
+  font-family: var(--font-body);
+  color: var(--text-color);
+}
+
+p {
+  font-size: var(--font-size-mobile-l);
+}
+
+a {
+  font-size: var(--font-size-mobile-l);
+  text-decoration: none;
+}
+
+li {
+  list-style-type: none;
+}
+
+/* Buttons */
+button {
+  background-color: var(--accent-orange);
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+/* Forms */
+input,
+textarea {
+  border: 1px solid #ccc;
+  padding: 0.5em;
+  border-radius: 4px;
+  font-family: var(--font-body);
+}
+
+/* Transition */
+@view-transition {
+  navigation: auto;
+}
+
+/* Loader */
+.loader {
+  color: var(--secondary-color);
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid var(--primary-color);
+  border-radius: 50%;
+  align-self: center;
+  width: 25px;
+  height: 25px;
+  animation: spin 0.3s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
