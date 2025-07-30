@@ -4,6 +4,20 @@
   box-sizing: border-box;
 }
 
+/* Typography */
+
+@font-face {
+  font-family: "RussoOne-Regular";
+  src: url(../fonts/RussoOne-Regular.ttf) format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins-Regular";
+  src: url(../fonts/Poppins-Regular.ttf) format("truetype");
+  font-display: swap;
+}
+
 body {
   /* Colors */
   --primary-color: #ff8d06;
@@ -14,8 +28,8 @@ body {
   --text-color: #000000;
 
   /* Fonts */
-  --font-heading: "Russo One", sans-serif;
-  --font-body: "Poppins", sans-serif;
+  --font-heading: "RussoOne-Regular", sans-serif;
+  --font-body: "Poppins-Regular", sans-serif;
 
   /* Sizes */
   --font-size-desktop-xl: 3em;
