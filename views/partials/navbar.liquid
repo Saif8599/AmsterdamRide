@@ -1,0 +1,129 @@
+<nav class="navbar">
+  <div class="navbar-title">
+    <p>AmsterdamRide</p>
+  </div>
+
+  <input
+    type="checkbox"
+    id="menu-toggle"
+    class="menu-toggle-checkbox"
+    hidden>
+
+  <ul class="navbar-menu">
+    <li>
+      <a href="/">Home</a>
+    </li>
+    <li>
+      <a href="/driver">Driver</a>
+    </li>
+    <li>
+      <a href="/about">About</a>
+    </li>
+    <li>
+      <a href="/contact">Contact</a>
+    </li>
+  </ul>
+
+  <label
+    class="mobile-menu-toggle"
+    for="menu-toggle"
+    tabindex="0">
+    <span class="open-icon" aria-hidden="true">&#9776;</span>
+    <span class="close-icon" aria-hidden="true">✕</span>
+    <span class="sr-only">Toggle menu</span>
+  </label>
+</nav>
+
+<style>
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .navbar-title {
+    color: var(--primary-color);
+    font-size: 24px;
+    font-weight: 600;
+    margin-left: 25%;
+  }
+
+  .navbar-menu {
+    display: none;
+    position: fixed;
+    top: 75px;
+    width: 100%;
+    height: 100vh;
+    background: orange;
+    list-style-type: none;
+    transition: right 0.3s ease;
+  }
+
+  .navbar-menu li a {
+    font-size: var(--font-size-mobile-m);
+    padding: 1em;
+    text-decoration: none;
+    color: var(--text-color);
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+    z-index: 100;
+    align-content: center;
+  }
+
+  .open-icon,
+  .close-icon {
+    color: var(--primary-color);
+    background: none;
+    border: none;
+    font-size: var(--font-size-mobile-xl);
+    cursor: pointer;
+  }
+
+  .close-icon {
+    display: none;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    border: 0;
+  }
+
+  .menu-toggle-checkbox:checked ~ .navbar-menu {
+    display: block;
+    right: 0;
+  }
+
+  .menu-toggle-checkbox:checked ~ .mobile-menu-toggle .open-icon {
+    display: none;
+  }
+
+  .menu-toggle-checkbox:checked ~ .mobile-menu-toggle .close-icon {
+    display: block;
+  }
+
+  @media (min-width: 765px) {
+    .navbar-title {
+      margin-left: 5%;
+    }
+    .navbar-menu {
+      display: flex;
+      align-self: center;
+      justify-content: space-between;
+      position: inherit;
+      width: auto;
+      height: auto;
+      list-style-type: none;
+      background: none;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+    }
+  }
+</style>
