@@ -4,6 +4,20 @@
   box-sizing: border-box;
 }
 
+/* Typography */
+
+@font-face {
+  font-family: "RussoOne-Regular";
+  src: url(../fonts/RussoOne-Regular.ttf) format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins-Regular";
+  src: url(../fonts/Poppins-Regular.ttf) format("truetype");
+  font-display: swap;
+}
+
 body {
   /* Colors */
   --primary-color: #ff8d06;
@@ -14,8 +28,8 @@ body {
   --text-color: #000000;
 
   /* Fonts */
-  --font-heading: "Russo One", sans-serif;
-  --font-body: "Poppins", sans-serif;
+  --font-heading: "RussoOne-Regular", sans-serif;
+  --font-body: "Poppins-Regular", sans-serif;
 
   /* Sizes */
   --font-size-desktop-xl: 3em;
@@ -88,14 +102,27 @@ li {
 }
 
 /* Buttons */
-button {
-  background-color: var(--accent-orange);
+button,
+.button {
+  background-color: var(--primary-color);
   color: white;
   border: none;
   padding: 0.5em 1em;
   border-radius: 4px;
   cursor: pointer;
   font-family: var(--font-body);
+  transition: all 0.1s ease;
+}
+
+button:hover,
+.button:hover {
+  background-color: var(--accent-orange);
+}
+
+button:active,
+.button:active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(3px);
 }
 
 /* Forms */
