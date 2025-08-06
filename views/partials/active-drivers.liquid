@@ -1,0 +1,81 @@
+<section class="active-drivers container">
+  <div class="active-drivers-titel">
+    <h1>Actieve chauffeurs</h1>
+  </div>
+
+  <ul class="active-drivers-list">
+    {% if drivers %}
+      {% for driver in drivers %}
+        <li class="driver-card">
+          <picture>
+            <source srcset="{{ driver.avatarUrl }}">
+            <img src="{{ driver.avatarUrl }}" alt="Profielfoto van {{ driver.name }}">
+          </picture>
+          <p>{{ driver.name }}</p>
+          <p>{{ driver.licensePlate }}</p>
+          <p>{{ driver.location }}</p>
+
+
+          <form
+            class="booking-form"
+            method="post"
+            action="/book-driver">
+            <input
+              type="hidden"
+              name="driverId"
+              value="{{ driver.driverId }}">
+
+            <div class="form-group">
+              <label for="pickup-{{ driver.driverId }}">Ophaaladres</label>
+              <input
+                type="text"
+                id="pickup-{{ driver.driverId }}"
+                name="pickupLocation"
+                placeholder="Straatnaam en huisnummer">
+            </div>
+
+            <div class="form-group">
+              <label for="destination-{{ driver.driverId }}">Bestemming</label>
+              <input
+                type="text"
+                id="destination-{{ driver.driverId }}"
+                name="destination"
+                placeholder="Waar naartoe?">
+            </div>
+
+            <div class="form-group">
+              <label for="name-{{ driver.driverId }}">Naam</label>
+              <input
+                type="text"
+                id="name-{{ driver.driverId }}"
+                name="customerName"
+                placeholder="Volledige naam">
+            </div>
+
+            <div class="form-group">
+              <label for="phone-{{ driver.driverId }}">Telefoonnummer</label>
+              <input
+                type="tel"
+                id="phone-{{ driver.driverId }}"
+                name="phoneNumber"
+                placeholder="+31 612345678">
+            </div>
+
+            <div class="form-group">
+              <label for="email-{{ driver.driverId }}">Email</label>
+              <input
+                type="email"
+                id="email-{{ driver.driverId }}"
+                name="email"
+                placeholder="Johndoe@gmail.com">
+            </div>
+
+            <button class="submit-button" type="submit">Bevestig boeking</button>
+          </form>
+        </li>
+      {% endfor %}
+    {% else %}
+      <p>Geen actieve chauffeurs beschikbaar</p>
+    {% endif %}
+  </ul>
+</section>
