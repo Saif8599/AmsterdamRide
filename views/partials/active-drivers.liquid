@@ -8,8 +8,13 @@
       {% for driver in drivers %}
         <li class="driver-card">
           <picture>
-            <source srcset="{{ driver.avatarUrl }}">
-            <img src="{{ driver.avatarUrl }}" alt="Profielfoto van {{ driver.name }}">
+            <source srcset="{{ driver.avatarUrl }}.webp" type="image/webp">
+            <img
+              src="{{ driver.avatarUrl }}"
+              alt="Profielfoto van {{ driver.name }}"
+              width="150"
+              height="150"
+              loading="lazy">
           </picture>
           <p>{{ driver.name }}</p>
           <p>{{ driver.licensePlate }}</p>
