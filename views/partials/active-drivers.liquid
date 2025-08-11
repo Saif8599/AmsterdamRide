@@ -1,4 +1,4 @@
-<section class="active-drivers container">
+<section id="active-drivers" class="active-drivers container">
   <div class="active-drivers-titel">
     <h1>Actieve chauffeurs</h1>
   </div>
@@ -6,77 +6,114 @@
   <ul class="active-drivers-list">
     {% if drivers %}
       {% for driver in drivers %}
-        <li class="driver-card">
-          <picture>
+        <li class="driver-card" tabindex="0">
+          <picture class="driver-card-picture">
             <source srcset="{{ driver.avatarUrl }}.webp" type="image/webp">
             <img
               src="{{ driver.avatarUrl }}"
               alt="Profielfoto van {{ driver.name }}"
-              width="150"
-              height="150"
+              width="100"
+              height="100"
               loading="lazy">
           </picture>
-          <p>{{ driver.name }}</p>
-          <p>{{ driver.licensePlate }}</p>
-          <p>{{ driver.location }}</p>
-
-
-          <form
-            class="booking-form"
-            method="post"
-            action="/book-driver">
-            <input
-              type="hidden"
-              name="driverId"
-              value="{{ driver.driverId }}">
-
-            <div class="form-group">
-              <label for="pickup-{{ driver.driverId }}">Ophaaladres</label>
-              <input
-                type="text"
-                id="pickup-{{ driver.driverId }}"
-                name="pickupLocation"
-                placeholder="Straatnaam en huisnummer">
+          <div class="driver-card-content">
+            <div class="driver-card-info">
+              <p class="driver-card-info-name">{{ driver.name }}</p>
+              <p>{{ driver.licensePlate }}</p>
+              <p>{{ driver.location }}</p>
             </div>
-
-            <div class="form-group">
-              <label for="destination-{{ driver.driverId }}">Bestemming</label>
-              <input
-                type="text"
-                id="destination-{{ driver.driverId }}"
-                name="destination"
-                placeholder="Waar naartoe?">
+            <div class="driver-card-status">
+              <span></span>
             </div>
+          </div>
 
-            <div class="form-group">
-              <label for="name-{{ driver.driverId }}">Naam</label>
-              <input
-                type="text"
-                id="name-{{ driver.driverId }}"
-                name="customerName"
-                placeholder="Volledige naam">
+          <a class="cta-booking button" href="#modal-{{driver.driverId}}">Book {{ driver.name }}
+            <svg
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="fill"
+              xmlns="http://www.w3.org/2000/svg">
+              <mask
+                id="mask0_242_126"
+                style="mask-type:alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="19"
+                height="19">
+                <rect
+                  width="19"
+                  height="19"
+                  fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_242_126)">
+                <path d="M12.8046 10.2917H3.16602V8.70834H12.8046L8.37122 4.27501L9.49935 3.16667L15.8327 9.50001L9.49935 15.8333L8.37122 14.725L12.8046 10.2917Z" fill="white" />
+              </g>
+            </svg>
+          </a>
+
+          <div id="modal-{{driver.driverId}}" class="modal-overlay">
+            <div class="modal-container">
+              <a href="#active-drivers" class="close-modal">&times;</a>
+              <form
+                class="booking-form"
+                method="post"
+                action="/book-driver">
+                <input
+                  type="hidden"
+                  name="driverId"
+                  value="{{ driver.driverId }}">
+
+                <div class="form-group">
+                  <label for="pickup-{{ driver.driverId }}">Ophaaladres</label>
+                  <input
+                    type="text"
+                    id="pickup-{{ driver.driverId }}"
+                    name="pickupLocation"
+                    placeholder="Straatnaam en huisnummer">
+                </div>
+
+                <div class="form-group">
+                  <label for="destination-{{ driver.driverId }}">Bestemming</label>
+                  <input
+                    type="text"
+                    id="destination-{{ driver.driverId }}"
+                    name="destination"
+                    placeholder="Waar naartoe?">
+                </div>
+
+                <div class="form-group">
+                  <label for="name-{{ driver.driverId }}">Naam</label>
+                  <input
+                    type="text"
+                    id="name-{{ driver.driverId }}"
+                    name="customerName"
+                    placeholder="Volledige naam">
+                </div>
+
+                <div class="form-group">
+                  <label for="phone-{{ driver.driverId }}">Telefoonnummer</label>
+                  <input
+                    type="tel"
+                    id="phone-{{ driver.driverId }}"
+                    name="phoneNumber"
+                    placeholder="+31 612345678">
+                </div>
+
+                <div class="form-group">
+                  <label for="email-{{ driver.driverId }}">Email</label>
+                  <input
+                    type="email"
+                    id="email-{{ driver.driverId }}"
+                    name="email"
+                    placeholder="Johndoe@gmail.com">
+                </div>
+
+                <button class="submit-button" type="submit">Bevestig boeking {{ driver.name }}</button>
+              </form>
             </div>
-
-            <div class="form-group">
-              <label for="phone-{{ driver.driverId }}">Telefoonnummer</label>
-              <input
-                type="tel"
-                id="phone-{{ driver.driverId }}"
-                name="phoneNumber"
-                placeholder="+31 612345678">
-            </div>
-
-            <div class="form-group">
-              <label for="email-{{ driver.driverId }}">Email</label>
-              <input
-                type="email"
-                id="email-{{ driver.driverId }}"
-                name="email"
-                placeholder="Johndoe@gmail.com">
-            </div>
-
-            <button class="submit-button" type="submit">Bevestig boeking</button>
-          </form>
+          </div>
         </li>
       {% endfor %}
     {% else %}
@@ -84,3 +121,207 @@
     {% endif %}
   </ul>
 </section>
+
+<style>
+  .active-drivers {
+    margin-top: 2em;
+  }
+
+  .active-drivers-titel {
+    text-align: center;
+  }
+
+  .active-drivers-list {
+    max-width: 370px;
+    margin: 0 auto;
+  }
+
+  .driver-card {
+    position: relative;
+    display: flex;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 20px 0;
+    align-items: center;
+    background-color: var(--accent-orange);
+    position: relative;
+    height: fit-content;
+  }
+
+  .driver-card:hover .driver-card-content,
+  .driver-card:focus-within .driver-card-content {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .driver-card:hover .cta-booking,
+  .driver-card:focus-within .cta-booking {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .driver-card-picture {
+    font-size: 0;
+  }
+
+  .driver-card-picture img {
+    border-radius: 10px;
+    border: 1px solid black;
+  }
+
+  .driver-card-content {
+    width: 100%;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .driver-card-info {
+    margin-left: 1em;
+  }
+
+  .driver-card-info p {
+    color: var(--secondary-color);
+  }
+
+  .driver-card-info-name {
+    font-size: var(--font-size-mobile-l);
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  .driver-card-status {
+    width: 30px;
+    height: 30px;
+    background-color: var(--accent-green);
+    border: 2px solid #FFCB8E;
+    border-radius: 50%;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+  }
+
+  .cta-booking {
+    position: absolute;
+    border-radius: 10px;
+    color: var(--secondary-color);
+    background-color: var(--accent-orange);
+    border: 1px solid var(--white-color);
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.2s ease;
+    top: 30%;
+    right: 10%;
+    display: inline-flex;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    align-items: center;
+  }
+  .cta-booking:focus {
+    opacity: 1;
+    visibility: visible;
+  }
+  .cta-booking:hover {
+    border: 1px solid(var(--accent-orange));
+    color: white;
+    background-color: black;
+  }
+  .cta-booking svg {
+    color: white;
+    margin-left: 5px;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    visibility: hidden;
+    opacity: 0;
+
+     &:target {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .modal-container {
+    position: relative;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+    background-color: white;
+    padding: 0;
+  }
+  .modal-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+  }
+
+  .close-modal:hover,
+  .close-modal:active {
+    background: none;
+    color: rgb(51, 51, 51);
+    transform: translateY(0px);
+    box-shadow: none;
+  }
+
+  /* Form */
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .submit-button {
+    color: white;
+    background-color: black;
+    padding: 10px;
+  }
+
+  .submit-button:hover {
+    background-color: rgb(51, 51, 51);
+  }
+
+  @media (min-width: 768px) {
+    .active-drivers-list {
+      max-width: 700px;
+    }
+    .cta-booking {
+      right: 30%;
+    }
+  }
+</style>
