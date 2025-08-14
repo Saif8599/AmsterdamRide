@@ -409,6 +409,8 @@
 </style>
 
 <script>
+  // Als fetch word ondersteunt in window
+  if ("fetch" in window) {
   // Client-side
   document.addEventListener('submit', async function(event) {
   const form = event.target;
@@ -479,4 +481,8 @@
     }, 3000);
     }, 1000);
   });
+  } else {
+    // Fallback voor oude browsers
+    console.warn("Deze browser ondersteunt geen fetch()")
+  }
 </script>
