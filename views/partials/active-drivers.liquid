@@ -6,18 +6,23 @@
   <ul class="active-drivers-list">
     {% if drivers %}
       {% for driver in drivers %}
-        <li class="driver-card" tabindex="0">
-          <picture class="driver-card-picture">
+        <li
+          class="driver-card"
+          tabindex="0"
+          id="driver-card-{{driver.driverId}}">
+          <picture class="driver-card-picture" id="driver-card-picture-{{driver.driverId}}">
             <source srcset="{{ driver.avatarUrl }}.webp" type="image/webp">
             <img
+              class="driver-avatar"
               src="{{ driver.avatarUrl }}"
               alt="Profielfoto van {{ driver.name }}."
               aria-hidden="true"
               width="100"
               height="100"
               loading="lazy">
+            <span class="checkmark">✔️</span>
           </picture>
-          <div class="driver-card-content">
+          <div class="driver-card-content" id="driver-card-content-{{driver.driverId}}">
             <div class="driver-card-info">
               <p class="driver-card-info-name">{{ driver.name }}</p>
               <p>{{ driver.licensePlate }}</p>
@@ -30,6 +35,7 @@
 
           <a
             class="cta-booking button"
+            id="cta-booking-{{driver.driverId}}"
             href="#modal-{{driver.driverId}}"
             aria-label="Boek chauffeur: {{ driver.name }}, Kenteken: {{ driver.licensePlate }}, Locatie: {{ driver.location }}">Book {{ driver.name }}
             <svg
@@ -79,7 +85,8 @@
                     type="text"
                     id="pickup-{{ driver.driverId }}"
                     name="pickupLocation"
-                    placeholder="Straatnaam en huisnummer">
+                    placeholder="Straatnaam en huisnummer"
+                    required>
                 </div>
 
                 <div class="form-group">
@@ -88,7 +95,8 @@
                     type="text"
                     id="destination-{{ driver.driverId }}"
                     name="destination"
-                    placeholder="Waar naartoe?">
+                    placeholder="Waar naartoe?"
+                    required>
                 </div>
 
                 <div class="form-group">
@@ -97,7 +105,8 @@
                     type="text"
                     id="name-{{ driver.driverId }}"
                     name="customerName"
-                    placeholder="Volledige naam">
+                    placeholder="Volledige naam"
+                    required>
                 </div>
 
                 <div class="form-group">
@@ -106,7 +115,8 @@
                     type="tel"
                     id="phone-{{ driver.driverId }}"
                     name="phoneNumber"
-                    placeholder="+31 612345678">
+                    placeholder="+31 612345678"
+                    required>
                 </div>
 
                 <div class="form-group">
@@ -115,7 +125,8 @@
                     type="email"
                     id="email-{{ driver.driverId }}"
                     name="email"
-                    placeholder="Johndoe@gmail.com">
+                    placeholder="Johndoe@gmail.com"
+                    required>
                 </div>
 
                 <button class="submit-button" type="submit">Bevestig boeking {{ driver.name }}</button>
@@ -132,6 +143,7 @@
 
 <style>
   .active-drivers {
+    height: 80vh;
     margin-top: 2em;
   }
 
@@ -169,12 +181,74 @@
   }
 
   .driver-card-picture {
-    font-size: 0;
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
   }
 
   .driver-card-picture img {
     border-radius: 10px;
     border: 1px solid black;
+  }
+
+  .driver-avatar {
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid black;
+    object-fit: cover;
+    transition: all 0.5s ease;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: green;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.4s ease;
+  }
+
+  /* Succes state */
+  .driver-card-picture.success {
+    background-color: #28a745;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 3;
+    animation: slideRight 0.5s ease forwards;
+  }
+  @keyframes slideRight {
+    0% {
+      transform: translateX(0%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 1;
+    }
+  }
+  .driver-card-picture.success img {
+    display: none;
+  }
+
+  .driver-card-picture.success .checkmark {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+    font-size: 3rem;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
   }
 
   .driver-card-content {
@@ -350,7 +424,7 @@
   submitButton.disabled = true;
   submitButton.innerHTML = `Verwerken...`;
   
-  try {
+  
     // Formulierdata verzamelen
     const formData = new FormData(form);
     
@@ -364,20 +438,45 @@
     const responseText = await response.text();
     const parser = new DOMParser();
     const responseDOM = parser.parseFromString(responseText, 'text/html');
-    
+     
     // Zoek het nieuwe state
     const newState = responseDOM.querySelector('[data-enhanced="' + form.getAttribute('data-enhanced') + '"]');
-    
+    setTimeout(function() {
     form.outerHTML = newState.outerHTML
   
     // Modal sluiten
     window.location.hash = '#active-drivers';
-    console.log("Boeking gelukt");  
-
-    // Animatie succes state
+    console.log("Boeking gelukt");    
   
-  } catch (error) { 
-    console.error("Boeking mislukt:", error);
-  }
+    // Animatie succes state
+    // Form data-enhanced word eruit gehaald 
+    const driverId = form.getAttribute('data-enhanced').replace('booking-', '');
+    // Resultaat: driverId = "1" 
+  
+    // Vind de cta-booking-id
+    const ctaBooking = document.getElementById(`cta-booking-${driverId}`);
+  
+    // Vind de driver-card
+    const driverCard = document.getElementById(`driver-card-${driverId}`);
+  
+    // Vind de driver-card-content
+    const driverCardContent = document.getElementById(`driver-card-content-${driverId}`);
+  
+    // Vind de picture
+    const picture = document.getElementById(`driver-card-picture-${driverId}`);
+  
+    // Checkmark animatie slide
+      ctaBooking.style.display = 'none';
+      driverCard.style.backgroundColor = '#28a745'; 
+      driverCardContent.style.opacity = '0';
+      picture.style.width = '100%';
+      picture.classList.add('success');
+    
+    //Reset na 3 sec
+    setTimeout(() => {
+    driverCard.style.display = 'none';
+    picture.classList.remove('success');
+    }, 3000);
+    }, 1000);
   });
 </script>
