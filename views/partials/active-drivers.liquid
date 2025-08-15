@@ -20,7 +20,7 @@
               width="100"
               height="100"
               loading="lazy">
-            <span class="checkmark">✔️</span>
+            <span class="checkmark" aria-hidden="true">✔️</span>
           </picture>
           <div class="driver-card-content" id="driver-card-content-{{driver.driverId}}">
             <div class="driver-card-info">
@@ -63,7 +63,10 @@
             </svg>
           </a>
 
-          <div id="modal-{{driver.driverId}}" class="modal-overlay">
+          <dialog
+            role="dialog"
+            id="modal-{{driver.driverId}}"
+            class="modal-overlay">
             <div class="modal-container">
               <a
                 href="#active-drivers"
@@ -132,7 +135,7 @@
                 <button class="submit-button" type="submit">Bevestig boeking {{ driver.name }}</button>
               </form>
             </div>
-          </div>
+          </dialog>
         </li>
       {% endfor %}
     {% else %}
@@ -314,13 +317,15 @@
   }
 
   /* Modal */
-  .modal-overlay {
+  dialog.modal-overlay {
     position: fixed;
+    margin: auto;
+    border-radius: 10px;
+    border: 1px solid black;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -335,12 +340,12 @@
   }
 
   .modal-container {
-    position: relative;
     background: white;
     padding: 2rem;
     border-radius: 10px;
     max-width: 500px;
     width: 100%;
+    position: relative;
   }
 
   .close-modal {
@@ -355,14 +360,7 @@
     background-color: white;
     padding: 0;
   }
-  .modal-container {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    max-width: 500px;
-    width: 90%;
-    position: relative;
-  }
+
 
   .close-modal:hover,
   .close-modal:active {
