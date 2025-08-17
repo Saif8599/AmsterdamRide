@@ -161,3 +161,10 @@ textarea {
     transform: rotate(360deg);
   }
 }
+
+/* Container */
+
+.container {
+  max-width: 765px;
+  margin: 0 auto;
+}

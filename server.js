@@ -5,8 +5,11 @@ import express from "express";
 // Importeer de Liquid package (ook als dependency via npm geïnstalleerd)
 import { Liquid } from "liquidjs";
 
-// WHOIS API
-const API_BASE_URL = "";
+import "dotenv/config";
+
+// API variabelen uit .env
+const baseUrl = process.env.API_BASE_URL;
+const apiKey = process.env.API_KEY;
 
 // Maak een nieuwe Express applicatie aan, waarin we de server configureren
 const app = express();
@@ -31,6 +34,62 @@ app.get("/", async function (request, response) {
   // Render index.liquid uit de Views map
   // Geef hier eventueel data aan mee
   response.render("index.liquid");
+});
+
+// Route naar drivers pagina
+app.get("/drivers", async function (request, response) {
+  // Fetch alle chauffeurs (VOORLOPIG)
+  const driversResponse = await fetch(`${baseUrl}/drivers`, {
+    headers: {
+      Apikey: apiKey,
+      Authorization: `Bearer ${apiKey}`,
+      Accept: "application/json",
+    },
+  });
+
+  const drivers = await driversResponse.json();
+
+  // console.log(drivers);
+
+  response.render("drivers.liquid", {
+    drivers: drivers,
+  });
+});
+
+// Post driver boeken
+app.post("/book-driver", async function (request, response) {
+  // Booking data request vanuit form
+  const bookingData = {
+    driverId: request.body.driverId,
+    pickupLocation: request.body.pickupLocation,
+    destination: request.body.destination,
+    customerName: request.body.customerName,
+    phoneNumber: request.body.phoneNumber,
+    email: request.body.email,
+    created: new Date(),
+  };
+
+  try {
+    // Rest api fetch
+    const apiResponse = await fetch(`${baseUrl}/bookings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: apiKey,
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(bookingData),
+    });
+
+    // Hier komen alle fouten (400-599)
+    if (!apiResponse.ok) throw await apiResponse.json();
+
+    console.log("Boeking succesvol:", bookingData);
+
+    response.redirect("/drivers"); //Redirect naar /drivers
+  } catch (error) {
+    console.error("Boeking mislukt:", error);
+  }
 });
 
 // Geen matching route request

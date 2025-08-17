@@ -1,0 +1,15 @@
+{% render 'partials/head.liquid'
+  , title: 'AmsterdamRide' %}
+
+{% render 'partials/navbar.liquid' %}
+
+{% render 'partials/hero-section.liquid'
+ image-src: 'AmsterdamRide1.webp'
+ image-alt: 'Background Hero Section'
+ title: 'Drivers'
+ description: 'Bekijk hier onze actieve chauffeurs in realtime.' %}
+
+{% include 'partials/active-drivers.liquid' %}
+
+
+{% render 'partials/foot.liquid' %}

@@ -1,0 +1,527 @@
+<section id="active-drivers" class="active-drivers container">
+  <div class="active-drivers-titel">
+    <h1>Actieve chauffeurs</h1>
+  </div>
+
+  <ul class="active-drivers-list">
+    {% if drivers %}
+      {% for driver in drivers %}
+        <li
+          class="driver-card"
+          tabindex="0"
+          id="driver-card-{{driver.driverId}}">
+          <picture class="driver-card-picture" id="driver-card-picture-{{driver.driverId}}">
+            <source srcset="{{ driver.avatarUrl }}.webp" type="image/webp">
+            <img
+              class="driver-avatar"
+              src="{{ driver.avatarUrl }}"
+              alt="Profielfoto van {{ driver.name }}."
+              aria-hidden="true"
+              width="100"
+              height="100"
+              loading="lazy">
+            <span class="checkmark" aria-hidden="true">✔️</span>
+          </picture>
+          <div class="driver-card-content" id="driver-card-content-{{driver.driverId}}">
+            <div class="driver-card-info">
+              <p class="driver-card-info-name">{{ driver.name }}</p>
+              <p>{{ driver.licensePlate }}</p>
+              <p>{{ driver.location }}</p>
+            </div>
+            <div class="driver-card-status">
+              <span></span>
+            </div>
+          </div>
+
+          <dialog id="modal-{{driver.driverId}}" popover>
+            <div class="modal-container">
+              <button
+                popovertarget="modal-{{driver.driverId}}"
+                popovertargetaction="hide"
+                class="close-modal"
+                aria-label="sluiten">&times;</button>
+              <form
+                class="booking-form"
+                method="post"
+                action="/book-driver"
+                data-enhanced="booking-{{driver.driverId}}">
+                <input
+                  type="hidden"
+                  name="driverId"
+                  value="{{ driver.driverId }}">
+
+                <div class="form-group">
+                  <label for="pickup-{{ driver.driverId }}">Ophaaladres</label>
+                  <input
+                    type="text"
+                    id="pickup-{{ driver.driverId }}"
+                    name="pickupLocation"
+                    placeholder="Straatnaam en huisnummer"
+                    required>
+                </div>
+
+                <div class="form-group">
+                  <label for="destination-{{ driver.driverId }}">Bestemming</label>
+                  <input
+                    type="text"
+                    id="destination-{{ driver.driverId }}"
+                    name="destination"
+                    placeholder="Waar naartoe?"
+                    required>
+                </div>
+
+                <div class="form-group">
+                  <label for="name-{{ driver.driverId }}">Naam</label>
+                  <input
+                    type="text"
+                    id="name-{{ driver.driverId }}"
+                    name="customerName"
+                    placeholder="Volledige naam"
+                    required>
+                </div>
+
+                <div class="form-group">
+                  <label for="phone-{{ driver.driverId }}">Telefoonnummer</label>
+                  <input
+                    type="tel"
+                    id="phone-{{ driver.driverId }}"
+                    name="phoneNumber"
+                    placeholder="+31 612345678"
+                    required>
+                </div>
+
+                <div class="form-group">
+                  <label for="email-{{ driver.driverId }}">Email</label>
+                  <input
+                    type="email"
+                    id="email-{{ driver.driverId }}"
+                    name="email"
+                    placeholder="Johndoe@gmail.com"
+                    required>
+                </div>
+
+                <button class="submit-button" type="submit">Bevestig boeking {{ driver.name }}</button>
+              </form>
+            </div>
+          </dialog>
+
+          {% comment %} {% if popoverSupported %} {% endcomment %}
+          <button
+            popovertarget="modal-{{driver.driverId}}"
+            class="cta-booking button"
+            id="cta-booking-{{driver.driverId}}"
+            aria-label="Boek chauffeur: {{ driver.name }}, Kenteken: {{ driver.licensePlate }}, Locatie: {{ driver.location }}">Book {{ driver.name }}
+            <svg
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="fill"
+              xmlns="http://www.w3.org/2000/svg">
+              <mask
+                id="mask0_242_126"
+                style="mask-type:alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="19"
+                height="19">
+                <rect
+                  width="19"
+                  height="19"
+                  fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_242_126)">
+                <path d="M12.8046 10.2917H3.16602V8.70834H12.8046L8.37122 4.27501L9.49935 3.16667L15.8327 9.50001L9.49935 15.8333L8.37122 14.725L12.8046 10.2917Z" fill="white" />
+              </g>
+            </svg>
+          </button>
+        {% comment %} {% else %}
+                               <a
+                                 href="#modal-{{driver.driverId}}"
+                                 class="cta-booking button"
+                                 id="cta-booking-{{driver.driverId}}"
+                                  aria-label="Boek chauffeur: {{ driver.name }}, Kenteken: {{ driver.licensePlate }}, Locatie: {{ driver.location }}">Book {{ driver.name }}
+                                 <svg
+                                 width="19"
+                                 height="19"
+                                 viewBox="0 0 19 19"
+                                 fill="fill"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                 <mask
+                                 id="mask0_242_126"
+                                 style="mask-type:alpha"
+                                 maskUnits="userSpaceOnUse"
+                                 x="0"
+                                 y="0"
+                                 width="19"
+                                 height="19">
+                                 <rect
+                                 width="19"
+                                 height="19"
+                                 fill="#D9D9D9" />
+                                 </mask>
+                                 <g mask="url(#mask0_242_126)">
+                                  <path d="M12.8046 10.2917H3.16602V8.70834H12.8046L8.37122 4.27501L9.49935 3.16667L15.8327 9.50001L9.49935 15.8333L8.37122 14.725L12.8046 10.2917Z" fill="white" />
+                                  </g>
+                                  </svg>
+                                  </a>
+                {% endif %} {% endcomment %}
+        </li>
+      {% endfor %}
+    {% else %}
+      <p>Geen actieve chauffeurs beschikbaar</p>
+    {% endif %}
+  </ul>
+</section>
+
+<style>
+  .active-drivers {
+    height: 80vh;
+    margin-top: 2em;
+  }
+
+  .active-drivers-titel {
+    text-align: center;
+  }
+
+  .active-drivers-list {
+    max-width: 370px;
+    margin: 0 auto;
+  }
+
+  .driver-card {
+    position: relative;
+    display: flex;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 20px 0;
+    align-items: center;
+    background-color: var(--accent-orange);
+    position: relative;
+    height: fit-content;
+  }
+
+  .driver-card:hover .driver-card-content,
+  .driver-card:focus-within .driver-card-content {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .driver-card:hover .cta-booking,
+  .driver-card:focus-within .cta-booking {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .driver-card-picture {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+  }
+
+  .driver-card-picture img {
+    border-radius: 10px;
+    border: 1px solid black;
+  }
+
+  .driver-avatar {
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid black;
+    object-fit: cover;
+    transition: all 0.5s ease;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: green;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.4s ease;
+  }
+
+  /* Succes state */
+  .driver-card-picture.success {
+    background-color: #28a745;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 3;
+    animation: slideRight 0.5s ease forwards;
+  }
+  @keyframes slideRight {
+    0% {
+      transform: translateX(0%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 1;
+    }
+  }
+  .driver-card-picture.success img {
+    display: none;
+  }
+
+  .driver-card-picture.success .checkmark {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+    font-size: 3rem;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  .driver-card-content {
+    width: 100%;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .driver-card-info {
+    margin-left: 1em;
+  }
+
+  .driver-card-info p {
+    color: var(--secondary-color);
+  }
+
+  .driver-card-info-name {
+    font-size: var(--font-size-mobile-l);
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  .driver-card-status {
+    width: 30px;
+    height: 30px;
+    background-color: var(--accent-green);
+    border: 2px solid #FFCB8E;
+    border-radius: 50%;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+  }
+
+  .cta-booking {
+    position: absolute;
+    border-radius: 10px;
+    color: var(--secondary-color);
+    background-color: var(--accent-orange);
+    border: 1px solid var(--white-color);
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.2s ease;
+    top: 30%;
+    right: 10%;
+    display: inline-flex;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    align-items: center;
+  }
+  .cta-booking:focus {
+    opacity: 1;
+    visibility: visible;
+  }
+  .cta-booking:hover {
+    border: 1px solid(var(--accent-orange));
+    color: white;
+    background-color: black;
+  }
+  .cta-booking svg {
+    color: white;
+    margin-left: 5px;
+  }
+
+  /* Modal */
+  .modal-container {
+    position: fixed;
+    margin: auto;
+    background: white;
+    padding: 2rem;
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    border-radius: 10px;
+    border: 1px solid black;
+    z-index: 3;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 70vh;
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+    background-color: white;
+    padding: 0;
+  }
+
+
+  .close-modal:hover,
+  .close-modal:active {
+    background: none;
+    color: rgb(51, 51, 51);
+    transform: translateY(0px);
+    box-shadow: none;
+  }
+
+  /* Form */
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .submit-button {
+    color: white;
+    background-color: black;
+    padding: 10px;
+  }
+
+  .submit-button:hover,
+  .submit-button:focus {
+    background-color: rgb(51, 51, 51);
+  }
+
+  @media (min-width: 768px) {
+    .active-drivers-list {
+      max-width: 700px;
+    }
+    .cta-booking {
+      right: 30%;
+    }
+  }
+</style>
+
+<script>
+  // Als fetch word ondersteunt in window
+  if ("fetch" in window) {
+  // Client-side
+  document.addEventListener('submit', async function(event) {
+  const form = event.target;
+  
+  // Alleen enhanced formulieren verwerken
+  if (!form.hasAttribute('data-enhanced')) return;
+  
+  event.preventDefault();
+  
+  // Loading state
+  const submitButton = form.querySelector('button[type="submit"]');
+  const submitButtonText = submitButton.innerHTML;
+  submitButton.disabled = true;
+  submitButton.innerHTML = `Verwerken...`;
+  
+  
+    // Formulierdata verzamelen
+    const formData = new FormData(form);
+    
+    // Fetch request
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: new URLSearchParams(formData)
+    });
+    
+    // Success handling
+    const responseText = await response.text();
+    const parser = new DOMParser();
+    const responseDOM = parser.parseFromString(responseText, 'text/html');
+     
+    // Zoek het nieuwe state
+    const newState = responseDOM.querySelector('[data-enhanced="' + form.getAttribute('data-enhanced') + '"]');
+    setTimeout(function() {
+    form.outerHTML = newState.outerHTML
+  
+    // Modal sluiten
+    window.location.hash = '#active-drivers';
+    console.log("Boeking gelukt");    
+  
+    // Animatie succes state
+    // Form data-enhanced word eruit gehaald 
+    const driverId = form.getAttribute('data-enhanced').replace('booking-', '');
+    // Resultaat: driverId = "1" 
+  
+    // Vind de cta-booking-id
+    const ctaBooking = document.getElementById(`cta-booking-${driverId}`);
+  
+    // Vind de driver-card
+    const driverCard = document.getElementById(`driver-card-${driverId}`);
+  
+    // Vind de driver-card-content
+    const driverCardContent = document.getElementById(`driver-card-content-${driverId}`);
+  
+    // Vind de picture
+    const picture = document.getElementById(`driver-card-picture-${driverId}`);
+  
+    // Checkmark animatie slide
+      ctaBooking.style.display = 'none';
+      driverCard.style.backgroundColor = '#28a745'; 
+      driverCardContent.style.opacity = '0';
+      picture.style.width = '100%';
+      picture.classList.add('success');
+    
+    //Reset na 3 sec
+    setTimeout(() => {
+    driverCard.style.display = 'none';
+    picture.classList.remove('success');
+    }, 3000);
+    }, 1000);
+  });
+  } else {
+    // Fallback voor oude browsers
+    console.warn("Deze browser ondersteunt geen fetch()")
+  }
+  
+  // Feature detection HTMLDialogElement
+  if ("HTMLDialogElement" in window) {
+    } else {
+    // Fallback voor oude browsers
+    console.warn("Deze browser ondersteunt geen HTMLDialogElement");
+  }
+  
+  // Feature detection Popover
+  const popoverSupported = "showPopover" in HTMLElement.prototype;
+  if (popoverSupported) {
+    // Voor alle dialogs met popovers
+    document.querySelectorAll("dialog[popover]").forEach((dialog) => {
+    dialog.popover = "auto";
+  
+    // console.log(dialog);
+    });
+    } else {
+      // Fallback voor oude browsers
+      console.warn("Deze browser ondersteunt geen Popover API");
+  }
+</script>
