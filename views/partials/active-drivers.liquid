@@ -503,4 +503,25 @@
     // Fallback voor oude browsers
     console.warn("Deze browser ondersteunt geen fetch()")
   }
+  
+  // Feature detection HTMLDialogElement
+  if ("HTMLDialogElement" in window) {
+    } else {
+    // Fallback voor oude browsers
+    console.warn("Deze browser ondersteunt geen HTMLDialogElement");
+  }
+  
+  // Feature detection Popover
+  const popoverSupported = "showPopover" in HTMLElement.prototype;
+  if (popoverSupported) {
+    // Voor alle dialogs met popovers
+    document.querySelectorAll("dialog[popover]").forEach((dialog) => {
+    dialog.popover = "auto";
+  
+    // console.log(dialog);
+    });
+    } else {
+      // Fallback voor oude browsers
+      console.warn("Deze browser ondersteunt geen Popover API");
+  }
 </script>
