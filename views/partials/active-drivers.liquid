@@ -33,45 +33,13 @@
             </div>
           </div>
 
-          <a
-            class="cta-booking button"
-            id="cta-booking-{{driver.driverId}}"
-            href="#modal-{{driver.driverId}}"
-            aria-label="Boek chauffeur: {{ driver.name }}, Kenteken: {{ driver.licensePlate }}, Locatie: {{ driver.location }}">Book {{ driver.name }}
-            <svg
-              width="19"
-              height="19"
-              viewBox="0 0 19 19"
-              fill="fill"
-              xmlns="http://www.w3.org/2000/svg">
-              <mask
-                id="mask0_242_126"
-                style="mask-type:alpha"
-                maskUnits="userSpaceOnUse"
-                x="0"
-                y="0"
-                width="19"
-                height="19">
-                <rect
-                  width="19"
-                  height="19"
-                  fill="#D9D9D9" />
-              </mask>
-              <g mask="url(#mask0_242_126)">
-                <path d="M12.8046 10.2917H3.16602V8.70834H12.8046L8.37122 4.27501L9.49935 3.16667L15.8327 9.50001L9.49935 15.8333L8.37122 14.725L12.8046 10.2917Z" fill="white" />
-              </g>
-            </svg>
-          </a>
-
-          <dialog
-            role="dialog"
-            id="modal-{{driver.driverId}}"
-            class="modal-overlay">
+          <dialog id="modal-{{driver.driverId}}" popover>
             <div class="modal-container">
-              <a
-                href="#active-drivers"
+              <button
+                popovertarget="modal-{{driver.driverId}}"
+                popovertargetaction="hide"
                 class="close-modal"
-                aria-label="sluiten">&times;</a>
+                aria-label="sluiten">&times;</button>
               <form
                 class="booking-form"
                 method="post"
@@ -136,6 +104,68 @@
               </form>
             </div>
           </dialog>
+
+          {% comment %} {% if popoverSupported %} {% endcomment %}
+          <button
+            popovertarget="modal-{{driver.driverId}}"
+            class="cta-booking button"
+            id="cta-booking-{{driver.driverId}}"
+            aria-label="Boek chauffeur: {{ driver.name }}, Kenteken: {{ driver.licensePlate }}, Locatie: {{ driver.location }}">Book {{ driver.name }}
+            <svg
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="fill"
+              xmlns="http://www.w3.org/2000/svg">
+              <mask
+                id="mask0_242_126"
+                style="mask-type:alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="19"
+                height="19">
+                <rect
+                  width="19"
+                  height="19"
+                  fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_242_126)">
+                <path d="M12.8046 10.2917H3.16602V8.70834H12.8046L8.37122 4.27501L9.49935 3.16667L15.8327 9.50001L9.49935 15.8333L8.37122 14.725L12.8046 10.2917Z" fill="white" />
+              </g>
+            </svg>
+          </button>
+        {% comment %} {% else %}
+                               <a
+                                 href="#modal-{{driver.driverId}}"
+                                 class="cta-booking button"
+                                 id="cta-booking-{{driver.driverId}}"
+                                  aria-label="Boek chauffeur: {{ driver.name }}, Kenteken: {{ driver.licensePlate }}, Locatie: {{ driver.location }}">Book {{ driver.name }}
+                                 <svg
+                                 width="19"
+                                 height="19"
+                                 viewBox="0 0 19 19"
+                                 fill="fill"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                 <mask
+                                 id="mask0_242_126"
+                                 style="mask-type:alpha"
+                                 maskUnits="userSpaceOnUse"
+                                 x="0"
+                                 y="0"
+                                 width="19"
+                                 height="19">
+                                 <rect
+                                 width="19"
+                                 height="19"
+                                 fill="#D9D9D9" />
+                                 </mask>
+                                 <g mask="url(#mask0_242_126)">
+                                  <path d="M12.8046 10.2917H3.16602V8.70834H12.8046L8.37122 4.27501L9.49935 3.16667L15.8327 9.50001L9.49935 15.8333L8.37122 14.725L12.8046 10.2917Z" fill="white" />
+                                  </g>
+                                  </svg>
+                                  </a>
+                {% endif %} {% endcomment %}
         </li>
       {% endfor %}
     {% else %}
@@ -317,35 +347,24 @@
   }
 
   /* Modal */
-  dialog.modal-overlay {
+  .modal-container {
     position: fixed;
     margin: auto;
+    background: white;
+    padding: 2rem;
+    max-width: 500px;
+    width: 100%;
+    display: flex;
     border-radius: 10px;
     border: 1px solid black;
+    z-index: 3;
+    justify-content: center;
+    align-items: center;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 3;
-    visibility: hidden;
-    opacity: 0;
-
-     &:target {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
-  .modal-container {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    max-width: 500px;
-    width: 100%;
-    position: relative;
+    height: 70vh;
   }
 
   .close-modal {
@@ -392,7 +411,8 @@
     padding: 10px;
   }
 
-  .submit-button:hover {
+  .submit-button:hover,
+  .submit-button:focus {
     background-color: rgb(51, 51, 51);
   }
 
